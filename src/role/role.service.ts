@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ConflictException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,15 +12,47 @@ export class RoleService {
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
   ) {}
-  remove(arg0: number) {
-    throw new Error('Method not implemented.');
+
+  async remove(id: number) {
+    const data = await this.roleRepository
+      .createQueryBuilder('role')
+      .delete()
+      .from(Role)
+      .where('role.id = :id', { id: 0 })
+      .execute();
+    if (!data) {
+      throw new ConflictException('No existe un rol con ese id');
+    }
+    return this.roleRepository.delete(id)
   }
-  update(arg0: number, updateRoleDto: RoleDto) {
-    throw new Error('Method not implemented.');
+
+  async update(id: number, updateRoleDto: Role) {
+    const data = await this.roleRepository
+      .createQueryBuilder('role')
+      .where('role.id = :id', { id: `%${updateRoleDto.id}%` })
+      .getOne();
+
+    // .createQueryBuilder()
+    // .update(User)
+    // .set({ firstName: "Timber", lastName: "Saw" })
+    // .where("id = :id", { id: 1 })
+    // .execute();
+
+    if (!data) {
+      throw new ConflictException('No existe un rol con ese id');
+    }
+    const newRole = new Role();
+    newRole.id = id;
+    newRole.name = updateRoleDto.name;
+    newRole.description = updateRoleDto.description;
+    newRole.isActive = true;
+    return this.roleRepository.save(newRole);
   }
-  findOne(arg0: number) {
-    throw new Error('Method not implemented.');
+
+  async findOne(id: number) {
+    return this.roleRepository.findOne(id);
   }
+
   async create(createRoleDto: RoleDto) {
     const data = await this.roleRepository
       .createQueryBuilder('role')
@@ -29,15 +62,19 @@ export class RoleService {
       throw new ConflictException('Ya existe un rol con ese nombre');
     }
     //return this.roleRepository.create(createRoleDto.toRoleEntity());
-
     const newRole = new Role();
     newRole.name = createRoleDto.name;
     newRole.description = createRoleDto.description;
     newRole.isActive = true;
-
     return this.roleRepository.save(newRole);
   }
-  findAll() {
-    throw new Error('Method not implemented.');
+
+  async findAll() {
+    return this.roleRepository.find({
+      order: {
+        name: 'ASC',
+        id: 'DESC',
+      },
+    });
   }
 }

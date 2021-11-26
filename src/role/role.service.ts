@@ -13,31 +13,27 @@ export class RoleService {
     private readonly roleRepository: Repository<Role>,
   ) {}
 
-  async remove(id: number) {
+  async remove(id: number, updateRoleDto: Role) {
     const data = await this.roleRepository
       .createQueryBuilder('role')
-      .delete()
-      .from(Role)
-      .where('role.id = :id', { id: 0 })
-      .execute();
+      .where('role.id = :id', { id: id})
+      .getOne();
     if (!data) {
       throw new ConflictException('No existe un rol con ese id');
     }
-    return this.roleRepository.delete(id)
+    const newRole = new Role();
+    newRole.id = id;
+    newRole.name = updateRoleDto.name;
+    newRole.description = updateRoleDto.description;
+    newRole.isActive = false;
+    return this.roleRepository.save(newRole);
   }
 
   async update(id: number, updateRoleDto: Role) {
     const data = await this.roleRepository
       .createQueryBuilder('role')
-      .where('role.id = :id', { id: `%${updateRoleDto.id}%` })
+      .where('role.id = :id', { id: id})
       .getOne();
-
-    // .createQueryBuilder()
-    // .update(User)
-    // .set({ firstName: "Timber", lastName: "Saw" })
-    // .where("id = :id", { id: 1 })
-    // .execute();
-
     if (!data) {
       throw new ConflictException('No existe un rol con ese id');
     }

@@ -14,8 +14,8 @@ import * as path from 'path';
       password: 'rivercampeon',
       database: 'exchange',
       synchronize: true,
-      entities: [path.join(__dirname, '../entity/**/*.js')],
-    }),
-  ],
+      entities: [path.join(__dirname, '../entity/**/*.js')]
+    })
+  ]
 })
 export class DatabaseModule {}

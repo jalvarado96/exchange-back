@@ -5,12 +5,20 @@ export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'text',
+    name: 'name'
+  })
   name: string;
 
-  @Column()
+  @Column({
+    type: 'text',
+    name: 'description'
+  })
   description: string;
 
-  @Column()
+  @Column({
+    name: 'isActive'
+  })
   isActive: boolean;
 }

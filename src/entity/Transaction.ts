@@ -12,7 +12,7 @@ export class Transaction {
     targetCountry: string;
 
     @Column({
-        type: 'number',
+        type: 'int',
         name: 'comission'
     })
     comission: number;
@@ -30,7 +30,7 @@ export class Transaction {
     target: string;
 
     @Column({
-        type: 'number',
+        type: 'int',
         name: 'valueSent'
     })
     valueSent: number;
@@ -48,7 +48,7 @@ export class Transaction {
     status: string;
 
     @Column({
-        type: 'number',
+        type: 'int',
         name: 'reciptAccount'
     })
     reciptAccount: number;

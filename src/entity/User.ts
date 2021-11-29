@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Role } from './Role';
 
 @Entity('user')
 export class User {
@@ -16,80 +17,91 @@ export class User {
   password: string;
 
   @Column({
-    name: 'adress'
+    name: 'adress',
+    nullable: true
   })
   adress: string;
 
   @Column({
-    name: 'city'
+    name: 'city',
+    nullable: true
   })
   city: string;
 
   @Column({
-    name: 'state'
+    name: 'state',
+    nullable: true
   })
   state: string;
 
   @Column({
     type: 'date',
-    name: 'birthdate'
+    name: 'birthdate',
+    nullable: true
   })
   birthdate: string;
 
   @Column({
-    name: 'phonenumber'
+    name: 'phonenumber',
+    nullable: true
   })
   phonenumber: string;
 
   @Column({
-    name: 'username'
+    name: 'username',
+    nullable: true
   })
   username: string;
 
   @Column({
-    name: 'lastname'
+    name: 'lastname',
+    nullable: true
   })
   lastname: string;
 
   @Column({
-    name: 'selfie'
+    name: 'selfie',
+    nullable: true
   })
   selfie: string;
 
   @Column({
-    name: 'dniFront'
+    name: 'dniFront',
+    nullable: true
   })
   dniFront: string;
 
   @Column({
-    name: 'dniBack'
+    name: 'dniBack',
+    nullable: true
   })
   dniBack: string;
 
   @Column({
     type: 'date',
-    name: 'documentDate'
+    name: 'documentDate',
+    nullable: true
   })
   documentDate: string;
 
   @Column({
-    name: 'documentType'
+    name: 'documentType',
+    nullable: true
   })
   documentType: string;
 
   @Column({
-    name: 'documentNumber'
+    name: 'documentNumber',
+    nullable: true
   })
   documentNumber: string;
 
-  @Column({
-    type: 'number',
-    name: 'role'
-  })
-  role: number;
+  @ManyToOne(() => Role, role => role.users)
+  role: Role;
 
   @Column({
-    name: 'recoverHash'
+    name: 'recoverHash',
+    nullable: true
   })
   recoverHash: string;
 }

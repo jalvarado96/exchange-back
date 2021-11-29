@@ -1,26 +1,20 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { Role } from '../../entity/Role';
 
 export class RoleDto {
-  @IsNotEmpty({
-    message: 'Debe proporcionar el nombre'
-  })
-  id: number;
 
+  @ApiProperty()
   @IsNotEmpty({
     message: 'Debe proporcionar el nombre'
   })
   name: string;
 
+  @ApiProperty()
   @IsNotEmpty({
     message: 'Debe proporcionar la descripción'
   })
   description: string;
-
-  @IsNotEmpty({
-    message: 'Debe proporcionar la descripción'
-  })
-  isActive: boolean;
 
   public toRoleEntity(): Role {
     const newRole = new Role();
@@ -30,4 +24,5 @@ export class RoleDto {
 
     return newRole;
   }
+
 }

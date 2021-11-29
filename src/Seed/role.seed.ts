@@ -1,12 +1,14 @@
 export const RoleSeed = [
   {
-    name: '',
-    description: '',
+
+    name: "ADMIN",
+    description: "Administrator",
     isActive: true
   },
   {
-    name: '',
-    description: '',
+
+    name: "EXCHANGER",
+    description: "Exchanger",
     isActive: true
   }
-];
+];  

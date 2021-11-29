@@ -6,13 +6,13 @@ export class Exchange {
     id: number;
 
     @Column({
-        type: 'number',
+        type: 'float4',
         name: 'comission'
     })
     comission: number;
 
     @Column({
-        type: 'number',
+        type: 'float4',
         name: 'finalValue'
     })
     finalValue: number;

@@ -9,4 +9,4 @@ import { Role } from '../entity/Role';
   providers: [RoleService],
   controllers: [RoleController],
 })
-export class RoleModule {}
+export class RoleModule { }

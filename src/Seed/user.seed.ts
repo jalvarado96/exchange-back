@@ -1,25 +1,14 @@
-import { StreamableFile } from "@nestjs/common";
-
 export const UserSeed = [
     {
-        name: '',
-        email: '',
-        password: '',
-        adress: '',
-        city: '',
-        state: '',
-        birthdate: '',
-        phonenumber: '',
-        username: '',
-        lastname: '',
-        selfie: '',
-        dniFront: '',
-        dniBack: '',
-        documentDate: '',
-        documentType: '',
-        documentNumber: '',
-        role: 0,
-        recoverHash: ''
-
+        name: 'Administrador',
+        email: 'admin@domain.com',
+        password: 'admin12345',
+        role: 'ADMIN'
+    },
+    {
+        name: 'Exchanger - Jhon Due',
+        email: 'exchanger@domain.com',
+        password: 'exchanger12345',
+        role: 'EXCHANGER'
     }
 ];

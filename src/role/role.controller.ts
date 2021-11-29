@@ -5,24 +5,32 @@ import {
   Get,
   Param,
   Patch,
-  Post
+  Post,
+  Put
 } from '@nestjs/common';
-import { Role } from '../entity/Role';
+import { ApiTags } from '@nestjs/swagger';
 import { RoleDto } from './dto/roleDto';
+import { RoleUpdateDto } from './dto/updateRoleDto';
 import { RoleService } from './role.service';
 
+@ApiTags('Roles')
 @Controller('roles')
 export class RoleController {
-  constructor(private readonly roleService: RoleService) {}
+  constructor(private readonly roleService: RoleService) { }
+
+  @Get()
+  findAll() {
+    return this.roleService.findAll();
+  }
 
   @Post()
   create(@Body() createRoleDto: RoleDto) {
     return this.roleService.create(createRoleDto);
   }
 
-  @Get()
-  findAll() {
-    return this.roleService.findAll();
+  @Put(':id')
+  update(@Param('id') id: number, @Body() updateRoleDto: RoleUpdateDto) {
+    return this.roleService.update(id, updateRoleDto);
   }
 
   @Get(':id')
@@ -30,13 +38,14 @@ export class RoleController {
     return this.roleService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: number, @Body() updateRoleDto: RoleDto) {
-    return this.roleService.update(id, updateRoleDto);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.roleService.remove(id);
   }
+
+  @Patch(':id/reactivate')
+  reactivate(@Param('id') id: number) {
+    return this.roleService.reactivate(id)
+  }
+
 }

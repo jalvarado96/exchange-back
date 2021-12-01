@@ -15,7 +15,7 @@ config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       synchronize: true,
-      entities: [path.join(__dirname, '../entity/**/*.js')]
+      entities: [path.join(__dirname, '../entity/**/*.{ts,js}')]
     })
   ]
 })

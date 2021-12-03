@@ -8,10 +8,14 @@ export class LoginBodyDto {
     })
     username: string;
 
-    @IsOptional()
     @IsNotEmpty({
         message: 'Debe proporcionar un email válido'
     })
     email: string;
+
+    @IsNotEmpty({
+        message: 'Debe proporcionar una cotraseña'
+    })
+    password: string;
 
 }

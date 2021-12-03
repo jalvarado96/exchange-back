@@ -6,12 +6,16 @@ import {
   Param,
   Patch,
   Post,
-  Put
+  Put,
+  Req,
+  UseGuards
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RoleDto } from './dto/roleDto';
 import { RoleUpdateDto } from './dto/updateRoleDto';
 import { RoleService } from './role.service';
+import { Request } from 'express'
 
 @ApiTags('Roles')
 @Controller('roles')
@@ -19,7 +23,14 @@ export class RoleController {
   constructor(private readonly roleService: RoleService) { }
 
   @Get()
-  findAll() {
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  findAll(
+    @Req() req: Request
+  ) {
+    console.log({
+      req
+    })
     return this.roleService.findAll();
   }
 

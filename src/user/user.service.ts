@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entity/User';
@@ -11,10 +11,12 @@ export class UserService {
         private readonly userRepository: Repository<User>,
     ) { }
 
-    async findOne(id: string): Promise<User | undefined> {
-        const userExists = await this.userRepository.findOne(id);
+    async findOne(email: string): Promise<User | undefined> {
+        const userExists = await this.userRepository.findOne({
+            email
+        });
         if (!userExists) {
-            throw new NotFoundException('El role no existe.')
+            throw new UnauthorizedException('El usuario no existe.')
         }
         return userExists
     }

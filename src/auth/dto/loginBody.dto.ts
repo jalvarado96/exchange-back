@@ -1,18 +1,15 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
-import { User } from '../entity/User';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 
 export class LoginBodyDto {
-    @IsOptional()
-    @IsNotEmpty({
-        message: 'Debe proporcionar el nombre de usuario'
-    })
-    username: string;
 
+    @ApiProperty()
     @IsNotEmpty({
         message: 'Debe proporcionar un email válido'
     })
     email: string;
 
+    @ApiProperty()
     @IsNotEmpty({
         message: 'Debe proporcionar una cotraseña'
     })

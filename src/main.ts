@@ -9,6 +9,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Exchange API')
+    .addBearerAuth()
     .setDescription('This is the exchange API v1')
     .setVersion('1.0')
     .build();

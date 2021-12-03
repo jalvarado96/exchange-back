@@ -1,8 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { LoginBodyDto } from '../dto_varios/loginBodyDto';
+import { LoginBodyDto } from './dto/loginBody.dto';
 import * as bcrypt from 'bcrypt'
+import { JWTPayload } from './interfaces/jwt-payload';
+import { LoginPresentation } from './presentation/login.presentation';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +21,11 @@ export class AuthService {
         }
         return null;
     }
-    async login(loginDto: LoginBodyDto) {
+
+    async login(loginDto: LoginBodyDto): Promise<LoginPresentation> {
+
         const userExists = await this.userService.findOne(loginDto.email);
+
         if (!userExists) {
             throw new UnauthorizedException("El usuario no existe.")
         }
@@ -30,10 +35,13 @@ export class AuthService {
             throw new UnauthorizedException("Contraseña incorrecta.")
         }
 
-        const payload = { email: loginDto.email };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        const payload: JWTPayload = { email: loginDto.email };
+
+        const response: LoginPresentation = {
+            accessToken: this.jwtService.sign(payload)
+        }
+
+        return response
     }
 }
 

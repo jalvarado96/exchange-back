@@ -6,8 +6,10 @@ import {
   Param,
   Patch,
   Post,
-  Put
+  Put,
+  UseGuards
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { RoleDto } from './dto/roleDto';
 import { RoleUpdateDto } from './dto/updateRoleDto';
@@ -15,6 +17,7 @@ import { RoleService } from './role.service';
 
 @ApiTags('Roles')
 @Controller('roles')
+@UseGuards(AuthGuard('jwt'))
 export class RoleController {
   constructor(private readonly roleService: RoleService) { }
 

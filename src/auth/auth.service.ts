@@ -8,6 +8,7 @@ import { LoginPresentation } from './presentation/login.presentation';
 import { RecoverPasswordDto } from './dto/recoverPassword.dto';
 import { User } from '../entity/User';
 import { Repository } from 'typeorm';
+import { ResetPasswordDto } from './dto/resetPassword.dto';
 
 @Injectable()
 export class AuthService {
@@ -51,6 +52,9 @@ export class AuthService {
     async recoverPassword(recoverPasswordDto: RecoverPasswordDto): Promise<void> {
         const { email } = recoverPasswordDto;
         const user: User = await this.userRepository.findOne({ email });
+        user.recoverHash = v4();
+        this.userRepository.save(user)
     }
+
 }
 

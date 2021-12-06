@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginPresentation } from './presentation/login.presentation';
 import { ApiRequest } from './interfaces/api-request';
 import { RecoverPasswordDto } from './dto/recoverPassword.dto';
+import { ResetPasswordDto } from './dto/resetPassword.dto';
 
 @ApiTags('Authentication')
 @Controller()

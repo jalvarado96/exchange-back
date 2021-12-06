@@ -1,16 +1,20 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginBodyDto } from './dto/loginBody.dto';
 import * as bcrypt from 'bcrypt'
 import { JWTPayload } from './interfaces/jwt-payload';
 import { LoginPresentation } from './presentation/login.presentation';
+import { RecoverPasswordDto } from './dto/recoverPassword.dto';
+import { User } from '../entity/User';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UserService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private readonly userRepository: Repository<User>,
     ) { }
 
     async validateUser(username: string, pass: string): Promise<any> {
@@ -42,6 +46,11 @@ export class AuthService {
         }
 
         return response
+    }
+
+    async recoverPassword(recoverPasswordDto: RecoverPasswordDto): Promise<void> {
+        const { email } = recoverPasswordDto;
+        const user: User = await this.userRepository.findOne({ email });
     }
 }
 

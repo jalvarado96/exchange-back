@@ -54,17 +54,27 @@ export class UserService {
         return userExists
     }
 
+    async findOneById (id: number): Promise<User | undefined> {
+        const userExists = await this.userRepository.findOne({
+            id
+        });
+        if (!userExists) {
+            throw new UnauthorizedException('El usuario no existe.')
+        }
+        return userExists
+    }
+
     async update(id: number, updateUserDto: UserUpdateDto) {
         const userExists = await this.userRepository
-            .createQueryBuilder('role')
-            .where('role.id = :id', { id: id })
+            .createQueryBuilder('user')
+            .where('user.id = :id', { id: id })
             .getOne();
         if (!userExists) {
-            throw new NotFoundException('No existe un rol con ese id');
+            throw new NotFoundException('No existe un user con ese id');
         }
         const userExistsByName = await this.userRepository
-            .createQueryBuilder('role')
-            .where('role.name like :name', { name: `%${updateUserDto.username}%` })
+            .createQueryBuilder('user')
+            .where('user.username like :username', { name: `%${updateUserDto.username}%` })
             .getOne();
         if (userExistsByName && userExistsByName.id !== Number(id)) {
             throw new ConflictException('Ya existe un rol con ese nombre');

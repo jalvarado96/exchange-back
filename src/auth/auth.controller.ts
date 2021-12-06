@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthService } from './auth.service';
 import { LoginBodyDto } from './dto/loginBody.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginPresentation } from './presentation/login.presentation';
 import { ApiRequest } from './interfaces/api-request';
+import { RecoverPasswordDto } from './dto/recoverPassword.dto';
 
 @ApiTags('Authentication')
 @Controller()
@@ -37,4 +38,8 @@ export class AuthController {
         return req.user
     }
 
+    @Patch('/recover-password')
+    recoverPassword(@Body() recoverPasswordDto: RecoverPasswordDto): Promise<void>{
+        return this.authService.recoverPassword(recoverPasswordDto)
+    }
 }

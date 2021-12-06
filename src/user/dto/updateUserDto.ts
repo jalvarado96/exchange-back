@@ -6,18 +6,6 @@ import { User } from '../../entity/User';
 export class UserUpdateDto {
 
     @ApiProperty()
-    @IsNotEmpty({
-        message: 'Debe proporcionar un email'
-    })
-    email: string;
-
-    @ApiProperty()
-    @IsNotEmpty({
-        message: 'Debe proporcionar una contraseña'
-    })
-    password: string;
-
-    @ApiProperty()
     @IsOptional({
         message: ''
     })

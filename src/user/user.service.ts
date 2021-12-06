@@ -69,7 +69,7 @@ export class UserService {
         if (userExistsByName && userExistsByName.id !== Number(id)) {
             throw new ConflictException('Ya existe un rol con ese nombre');
         }
-        userExists.email = updateUserDto.email ? updateUserDto.email : userExists.email;
+        
         userExists.adress = updateUserDto.adress ? updateUserDto.adress : userExists.adress;
         userExists.state = updateUserDto.state ? updateUserDto.state : userExists.state;
         userExists.birthdate = updateUserDto.birthdate ? updateUserDto.birthdate : userExists.birthdate;

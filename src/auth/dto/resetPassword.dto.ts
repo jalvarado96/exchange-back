@@ -1,8 +1,7 @@
-import { IsNotEmpty, IsUUID } from "class-validator";
+import { IsNotEmpty } from "class-validator";
 
 export class ResetPasswordDto {
     @IsNotEmpty()
-    @IsUUID()
     recoverHash: string;
 
     @IsNotEmpty()

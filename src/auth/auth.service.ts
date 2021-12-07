@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginBodyDto } from './dto/loginBody.dto';
@@ -9,6 +9,8 @@ import { RecoverPasswordDto } from './dto/recoverPassword.dto';
 import { User } from '../entity/User';
 import { Repository } from 'typeorm';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
+import { stringify } from 'querystring';
+import { RecoverPasswordResponse } from './presentation/recoverPassword.presentation';
 
 @Injectable()
 export class AuthService {
@@ -49,12 +51,36 @@ export class AuthService {
         return response
     }
 
-    async recoverPassword(recoverPasswordDto: RecoverPasswordDto): Promise<void> {
+    async recoverPassword(recoverPasswordDto: RecoverPasswordDto): Promise < RecoverPasswordResponse > {
+        const secretWord = 'X-Exchange'
         const { email } = recoverPasswordDto;
         const user: User = await this.userRepository.findOne({ email });
-        user.recoverHash = v4();
+        if(!user) {
+            throw new NotFoundException("Usuario inexistente.")
+        }
+        const salt = bcrypt.genSaltSync(10);
+        user.recoverHash = bcrypt.hashSync(secretWord, salt);
         this.userRepository.save(user)
+            return {
+            message: 'Hemos enviado un mail con las intrucciones de recuperación de contraseña'
+        }
     }
 
-}
+    async resetPassword(hash: string, newPassword:string): Promise < RecoverPasswordResponse > {
+        const user: User = await this.userRepository.findOne({ recoverHash: hash });
+        if(!user) {
+            throw new ConflictException("El token que ha ingresado es inválido.")
+        }
+        const salt = bcrypt.genSaltSync(10);
+        user.password = bcrypt.hashSync(newPassword, salt);
+        user.recoverHash = null // OR ""
+        this.userRepository.save(user)
+            return {
+            message: 'Hemos cambiado la contraseña del usuario exitosamente.'
+        }
+    }
+
+    }
+
+
 

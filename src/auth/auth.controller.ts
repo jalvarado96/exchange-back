@@ -7,6 +7,7 @@ import { LoginPresentation } from './presentation/login.presentation';
 import { ApiRequest } from './interfaces/api-request';
 import { RecoverPasswordDto } from './dto/recoverPassword.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
+import { RecoverPasswordResponse } from './presentation/recoverPassword.presentation';
 
 @ApiTags('Authentication')
 @Controller()
@@ -39,8 +40,13 @@ export class AuthController {
         return req.user
     }
 
-    @Patch('/recover-password')
-    recoverPassword(@Body() recoverPasswordDto: RecoverPasswordDto): Promise<void>{
+    @Patch('recover-password')
+    recoverPassword(@Body() recoverPasswordDto: RecoverPasswordDto): Promise<RecoverPasswordResponse> {
         return this.authService.recoverPassword(recoverPasswordDto)
+    }
+
+    @Patch('reset-password')
+    resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<RecoverPasswordResponse> {
+        return this.authService.resetPassword(resetPasswordDto.recoverHash, resetPasswordDto.password)
     }
 }

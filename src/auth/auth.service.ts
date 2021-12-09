@@ -73,7 +73,7 @@ export class AuthService {
         }
         const salt = bcrypt.genSaltSync(10);
         user.password = bcrypt.hashSync(newPassword, salt);
-        user.recoverHash = null // OR ""
+        user.recoverHash = null
         this.userRepository.save(user)
             return {
             message: 'Hemos cambiado la contraseña del usuario exitosamente.'

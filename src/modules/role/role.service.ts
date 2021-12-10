@@ -2,7 +2,7 @@ import { ConflictException, NotFoundException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Role } from '../entity/Role';
+import { Role } from '../../entity/Role';
 import { RoleDto } from './dto/roleDto';
 import { RoleUpdateDto } from './dto/updateRoleDto';
 

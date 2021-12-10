@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entity/User';
+import { User } from '../../entity/User';
 import { UserUpdateDto } from './dto/updateUserDto';
 import { UserDto } from './dto/userDto';
 
@@ -54,7 +54,7 @@ export class UserService {
         return userExists
     }
 
-    async findOneById (id: number): Promise<User | undefined> {
+    async findOneById(id: number): Promise<User | undefined> {
         const userExists = await this.userRepository.findOne({
             id
         });
@@ -79,7 +79,7 @@ export class UserService {
         if (userExistsByName && userExistsByName.id !== Number(id)) {
             throw new ConflictException('Ya existe un rol con ese nombre');
         }
-        
+
         userExists.adress = updateUserDto.adress ? updateUserDto.adress : userExists.adress;
         userExists.state = updateUserDto.state ? updateUserDto.state : userExists.state;
         userExists.birthdate = updateUserDto.birthdate ? updateUserDto.birthdate : userExists.birthdate;

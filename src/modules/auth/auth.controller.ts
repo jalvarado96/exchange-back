@@ -8,6 +8,8 @@ import { ApiRequest } from './interfaces/api-request';
 import { RecoverPasswordDto } from './dto/recoverPassword.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
 import { RecoverPasswordResponse } from './presentation/recoverPassword.presentation';
+import { RegisterBodyDto } from './dto/registerBody.dto';
+import { RegisterResponsePresentation } from './presentation/register.presentation';
 
 @ApiTags('Authentication')
 @Controller()
@@ -49,4 +51,13 @@ export class AuthController {
     resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<RecoverPasswordResponse> {
         return this.authService.resetPassword(resetPasswordDto.recoverHash, resetPasswordDto.password)
     }
+
+    @Post('auth/register')
+    register(
+        @Body() registerBody: RegisterBodyDto
+    ): Promise<RegisterResponsePresentation> {
+        return this.authService.register(registerBody);
+    }
+
+
 }

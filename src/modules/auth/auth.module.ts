@@ -7,9 +7,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { AuthController } from './auth.controller';
 import { Repository } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../../entity/User';
+import { CustomMailService } from '../mailer/mailer.service';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     UserModule,
     PassportModule,
     JwtModule.register({
@@ -17,7 +21,7 @@ import { Repository } from 'typeorm';
       signOptions: { expiresIn: Number(jwtConstants.expiresIn) },
     }),
   ],
-  providers: [AuthService, JwtStrategy, Repository],
+  providers: [AuthService, JwtStrategy, Repository, CustomMailService],
   exports: [AuthService],
   controllers: [AuthController],
 })
